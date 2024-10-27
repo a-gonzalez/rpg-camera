@@ -1,5 +1,3 @@
-import { LEFT, RIGHT, UP, DOWN } from "./util.js";
-
 export default class Input
 {
     constructor(game)
@@ -8,6 +6,11 @@ export default class Input
 
         this.game = game;
         this.keys = [];
+
+        const LEFT = "LEFT";
+        const RIGHT = "RIGHT";
+        const UP = "UP";
+        const DOWN = "DOWN";
 
         window.addEventListener("keydown", (event) =>
         {

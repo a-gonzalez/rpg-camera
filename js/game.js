@@ -1,7 +1,7 @@
 import Map from "./map.js";
 import Camera from "./camera.js";
 import Input from "./input.js";
-import { GAME_HEIGHT, GAME_WIDTH, UP, DOWN, RIGHT, LEFT } from "./util.js";
+import { GAME_HEIGHT, GAME_WIDTH, TILE_SIZE, IMAGE_SIZE } from "./util.js";
 
 export default class Game
 {
@@ -19,19 +19,19 @@ export default class Game
 
         switch (this.input.keys[0])
         {
-            case LEFT :
+            case this.input.LEFT :
             {
                 speedX = -1; break;
             }
-            case RIGHT :
+            case this.input.RIGHT :
             {
                 speedX = 1; break;
             }
-            case DOWN :
+            case this.input.DOWN :
             {
                 speedY = 1; break;
             }
-            case UP :
+            case this.input.UP :
             {
                 speedY = -1; break;
             }
@@ -41,20 +41,12 @@ export default class Game
 
     render(delta_time)
     {
-        this.update(delta_time);
+        //this.update(delta_time);
 
         this.context.clearRect(0, 0, this.screen.width, this.screen.height);
-        this.context.drawImage(
-            this.map.image,
-            this.camera.x,
-            this.camera.y,
-            GAME_WIDTH,
-            GAME_HEIGHT,
-            0,
-            0,
-            GAME_WIDTH,
-            GAME_HEIGHT
-        )
+
+        this.drawLayer(0);
+        this.drawLayer(1);
     }
 
     initialize(screen)
@@ -64,12 +56,48 @@ export default class Game
 
         this.screen = screen;
         this.context = this.screen.getContext("2d");
+        this.context.imageSmoothingEnabled = false;
 
         this.map = new Map();
         this.camera = new Camera(this.map, GAME_WIDTH, GAME_HEIGHT);
         this.input = new Input(this);
         this.game_over = false;
         this.debug = false;
+    }
+
+    drawLayer(layer)
+    {
+        //let index = 1;
+
+        for (let row = 0; row <= this.map.rows; row++)
+        {
+            for (let column = 0; column <= this.map.columns; column++)
+            {
+                let tile = this.map.getTile(layer, row, column);
+
+                this.context.drawImage(
+                    this.map.image,
+                    (tile - 1) * IMAGE_SIZE % this.map.image.width,
+                    Math.floor((tile - 1) / this.map.image_columns) * IMAGE_SIZE,
+                    IMAGE_SIZE,
+                    IMAGE_SIZE,
+                    column * TILE_SIZE,
+                    row * TILE_SIZE,
+                    TILE_SIZE,
+                    TILE_SIZE
+                );
+
+                if (this.debug)
+                {
+                    this.context.strokeRect(column * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+                    //this.context.font = "24px Arial";
+                    //this.context.fillText(index, column * TILE_SIZE, row * TILE_SIZE);
+
+
+                    //index++;
+                }
+            }
+        }//context.fillStyle = "rgba(255, 36, 0, 0.3)"; // "#ff4500"; //orange-red
     }
 
     toggleDebug()

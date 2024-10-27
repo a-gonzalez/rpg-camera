@@ -13,4 +13,6 @@
     translate: -50% -50%;
     max-width: 95%;
     max-height: 95%;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
 }
