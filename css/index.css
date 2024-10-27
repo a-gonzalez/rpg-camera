@@ -4,28 +4,13 @@
     box-sizing: border-box;
 }
 
-#controls
-{
-    display: flex;
-    justify-content: space-around;
-    padding: 10px;
-}
-
-#controls > button
-{
-    cursor: pointer;
-    padding: 5px 8px;
-    width: 80px;
-}
-
 #screen
 {
-    background-color: #0000ff;
-    position: relative;
+    border: 2px solid #000000;
+    position: absolute;
     left: 50%;
-    translate: -50% 0;
-    height: 320px;
-    width: 320px;
-    image-rendering: crisp-edges;
-    image-rendering: pixelated;
+    top: 50%;
+    translate: -50% -50%;
+    max-width: 95%;
+    max-height: 95%;
 }

@@ -1,6 +1,6 @@
 import Game from "./game.js";
 
-addEventListener("load", () =>
+window.addEventListener("load", () =>
 {
     console.info(`Index @ ${new Date().toLocaleString()}`);
 
@@ -11,7 +11,7 @@ addEventListener("load", () =>
 
     const animate = (time_stamp) =>
     {// delta-time is the time it takes this device to serve one animation frame
-        const delta_time = time_stamp - previous_stamp;
+        const delta_time = (time_stamp - previous_stamp) / 1000;
         previous_stamp = time_stamp; // approximately 60 fps
 
         //console.log(delta_time); // 1000 / 60.6 ~ 16.5
