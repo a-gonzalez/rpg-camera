@@ -1,4 +1,4 @@
-import { TILE_SIZE, IMAGE_SIZE } from "./util.js";
+import { IMAGE_SIZE } from "./util.js";
 
 export default class Map
 {
@@ -16,7 +16,6 @@ export default class Map
 
         this.image = new Image();
         this.image.src = "img/tilemap.png";
-        //this.image.src = "img/full_map.png";
         this.image_columns = this.image.width / IMAGE_SIZE;
 
         this.layers = [[
@@ -34,18 +33,18 @@ export default class Map
             18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18
         ], [
             19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
-            4, 20, 23, 24, 0, 0, 23, 23, 23, 25, 24, 20,
+            4, 20, 23, 24, 0, 0, 23, 23, 0, 25, 24, 20,
             9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 14, 0, 0, 5, 0, 0, 0, , 20,
+            0, 0, 0, 14, 0, 0, 5, 0, 0, 0, 0, 20,
             14, 0, 0, 19, 0, 23, 10, 0, 0, 0, 0, 15,
             19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20,
             5, 0, 0, 0, 0, 24, 0, 0, 15, 0, 0, 0,
-            10, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            5, 15, 10, 0, 0, 0, 20, 0, 0, 0, 4, 0,
-            10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 23,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10
-        ], [
+            10, 0, 5, 0, 0, 0, 0, 0, 4, 0, 0, 24,
+            5, 15, 10, 0, 0, 0, 20, 0, 9, 0, 0, 0,
+            10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 23,
+            5, 5, 5, 5, 5, 5, 5, 5, 5, 4, 5, 5,
+            10, 10, 10, 10, 10, 10, 10, 10, 10, 9, 10, 10
+        ]/*, [
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -58,47 +57,11 @@ export default class Map
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        ]];
-    }
-
-    render(context)
-    {
-        context.drawImage(this.image, 0, 0);
+        ]*/];
     }
 
     getTile(layer, row, column)
     {
         return this.layers[layer][this.columns * row + column];
     }
-
-    /*drawCollisionMap(context)
-    {
-        context.fillStyle = "rgba(255, 36, 0, 0.3)"; // "#ff4500"; //orange-red
-        context.save();
-
-        for (let row = 0; row < getRowCount(); row++)
-        {
-            for (let column = 0; column < getColumnCount(); column++)
-            {
-                if (this.getTile(this.level_1.collisionLayer, row, column) === 1)
-                {
-                    context.fillRect(column * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE);     
-                }
-            }
-        }
-        context.restore();
-    }*/
 }
-
-/*
-1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7,
-1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-
-0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-
-18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18,
-*/

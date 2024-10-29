@@ -1,3 +1,5 @@
+import { TILE_SIZE } from "./util.js";
+
 export default class Camera
 {
     constructor(map, width, height)
@@ -12,16 +14,11 @@ export default class Camera
         this.map = map;
         this.width = width;
         this.height = height;
-        this.x = 128;
-        this.y = 128;
+        this.x = 0;
+        this.y = 0;
         this.speed = 256;
-        this.max_x = this.map.image.width - this.width;
-        this.max_y = this.map.image.height - this.height;
-    }
-
-    render(context)
-    {
-        
+        this.max_x = map.columns * TILE_SIZE - this.width;
+        this.max_y = map.rows * TILE_SIZE - this.height;
     }
 
     move(delta_time, speedX, speedY)

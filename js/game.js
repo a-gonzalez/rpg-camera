@@ -1,7 +1,7 @@
 import Map from "./map.js";
 import Camera from "./camera.js";
 import Input from "./input.js";
-import { GAME_HEIGHT, GAME_WIDTH, TILE_SIZE, IMAGE_SIZE } from "./util.js";
+import { GAME_HEIGHT, GAME_WIDTH, TILE_SIZE, IMAGE_SIZE, UP, DOWN, LEFT, RIGHT } from "./util.js";
 
 export default class Game
 {
@@ -17,21 +17,21 @@ export default class Game
         let speedX = 0;
         let speedY = 0;
 
-        switch (this.input.keys[0])
+        switch (this.input.lastKey)
         {
-            case this.input.LEFT :
+            case LEFT :
             {
                 speedX = -1; break;
             }
-            case this.input.RIGHT :
+            case RIGHT :
             {
                 speedX = 1; break;
             }
-            case this.input.DOWN :
+            case DOWN :
             {
                 speedY = 1; break;
             }
-            case this.input.UP :
+            case UP :
             {
                 speedY = -1; break;
             }
@@ -41,10 +41,9 @@ export default class Game
 
     render(delta_time)
     {
-        //this.update(delta_time);
-
         this.context.clearRect(0, 0, this.screen.width, this.screen.height);
 
+        this.update(delta_time);
         this.drawLayer(0);
         this.drawLayer(1);
     }
@@ -67,13 +66,20 @@ export default class Game
 
     drawLayer(layer)
     {
-        //let index = 1;
+        const start_column = Math.floor(this.camera.x / TILE_SIZE);
+        const end_column = start_column + (this.camera.width / TILE_SIZE);
+        const start_row = Math.floor(this.camera.y / TILE_SIZE);
+        const end_row = start_row + (this.camera.height / TILE_SIZE);
+        const offset_x = -this.camera.x + start_column * TILE_SIZE;
+        const offset_y = -this.camera.y + start_row * TILE_SIZE;
 
-        for (let row = 0; row <= this.map.rows; row++)
+        for (let row = start_row; row <= end_row; row++)
         {
-            for (let column = 0; column <= this.map.columns; column++)
+            for (let column = start_column; column <= end_column; column++)
             {
                 let tile = this.map.getTile(layer, row, column);
+                let x = Math.round((column - start_column) * TILE_SIZE + offset_x);
+                let y = Math.round((row - start_row) * TILE_SIZE + offset_y);
 
                 this.context.drawImage(
                     this.map.image,
@@ -81,23 +87,26 @@ export default class Game
                     Math.floor((tile - 1) / this.map.image_columns) * IMAGE_SIZE,
                     IMAGE_SIZE,
                     IMAGE_SIZE,
-                    column * TILE_SIZE,
-                    row * TILE_SIZE,
+                    x,
+                    y,
                     TILE_SIZE,
                     TILE_SIZE
                 );
 
                 if (this.debug)
                 {
-                    this.context.strokeRect(column * TILE_SIZE, row * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-                    //this.context.font = "24px Arial";
-                    //this.context.fillText(index, column * TILE_SIZE, row * TILE_SIZE);
-
-
-                    //index++;
+                    this.context.strokeRect(Math.round(x), Math.round(y), TILE_SIZE, TILE_SIZE);
+                    
+                    if (layer !== 0 && tile !== 0)
+                    {
+                        this.context.save();
+                        this.context.fillStyle = "rgba(255, 36, 0, 0.3)"; // "#ff4500"; //orange-red
+                        this.context.fillRect(x, y, TILE_SIZE, TILE_SIZE);
+                        this.context.restore();
+                    }
                 }
             }
-        }//context.fillStyle = "rgba(255, 36, 0, 0.3)"; // "#ff4500"; //orange-red
+        }
     }
 
     toggleDebug()
